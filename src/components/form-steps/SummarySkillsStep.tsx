@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { ResumeFormData } from '@/types';
-import { Sparkles, Code, PenTool } from 'lucide-react';
+import { Sparkles, Code, PenTool, X } from 'lucide-react';
 
 interface Props {
     data: ResumeFormData;
@@ -7,9 +8,23 @@ interface Props {
 }
 
 export function SummarySkillsStep({ data, updateData }: Props) {
-    const handleSkillsChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        const skillsArray = e.target.value.split(',').map(s => s.trim()).filter(s => s.length > 0);
-        updateData({ skills: skillsArray });
+    const [skillInput, setSkillInput] = useState('');
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === ',' || e.key === 'Enter') {
+            e.preventDefault();
+            const newSkill = skillInput.trim();
+            if (newSkill && !data.skills.includes(newSkill)) {
+                updateData({ skills: [...data.skills, newSkill] });
+            }
+            setSkillInput('');
+        }
+    };
+
+    const removeSkill = (skillToRemove: string) => {
+        updateData({
+            skills: data.skills.filter(s => s !== skillToRemove)
+        });
     };
 
     return (
@@ -48,15 +63,16 @@ export function SummarySkillsStep({ data, updateData }: Props) {
             <div>
                 <label className="form-label flex items-center gap-2">
                     <Code className="h-4 w-4 text-gray-500" />
-                    Skills (Comma-separated)
+                    Skills (Press Enter or Comma to add)
                 </label>
                 <div className="mt-2">
-                    <textarea
-                        rows={3}
-                        className="form-textarea"
-                        placeholder="JavaScript, React, Node.js, TypeScript, PostgreSQL, AWS, Docker..."
-                        value={data.skills.join(', ')}
-                        onChange={handleSkillsChange}
+                    <input
+                        type="text"
+                        className="form-input"
+                        placeholder="JavaScript, React, Node.js, TypeScript..."
+                        value={skillInput}
+                        onChange={(e) => setSkillInput(e.target.value)}
+                        onKeyDown={handleKeyDown}
                     />
                 </div>
 
@@ -64,8 +80,15 @@ export function SummarySkillsStep({ data, updateData }: Props) {
                 {data.skills.length > 0 && (
                     <div className="mt-4 flex flex-wrap gap-2">
                         {data.skills.map((skill, idx) => (
-                            <span key={idx} className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-500/15 text-indigo-300 border border-indigo-500/20">
+                            <span key={idx} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium bg-indigo-500/15 text-indigo-300 border border-indigo-500/20">
                                 {skill}
+                                <button
+                                    type="button"
+                                    onClick={() => removeSkill(skill)}
+                                    className="hover:text-white focus:outline-none rounded-full p-0.5 hover:bg-indigo-500/30 transition-colors"
+                                >
+                                    <X className="h-3 w-3" />
+                                </button>
                             </span>
                         ))}
                     </div>
