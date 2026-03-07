@@ -26,7 +26,7 @@ Focus on:
 1. Professional tone
 2. Correct ATS keyword placement
 3. Action verbs
-4. Clean, standard resume sections (Contact, Summary, Experience, Education, Projects, Skills)
+4. Clean, standard resume sections. ONLY include optional sections (Experience, Education, Projects) if there is data provided for them in the JSON. If an array is empty, DO NOT output a heading or any placeholder text (e.g., "No experience listed") for that section.
 
 User Data:
 ${JSON.stringify(raw_data, null, 2)}
