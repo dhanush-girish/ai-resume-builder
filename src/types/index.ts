@@ -18,6 +18,7 @@ export interface ResumeFormData {
     summary: string;
     experience: Experience[];
     education: Education[];
+    projects: Project[];
     skills: string[];
 }
 
@@ -48,4 +49,11 @@ export interface Education {
     startDate: string;
     endDate: string;
     current: boolean;
+}
+
+export interface Project {
+    id: string;
+    name: string;
+    description: string;
+    link?: string;
 }

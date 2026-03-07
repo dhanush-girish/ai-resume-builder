@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { ContactStep } from './form-steps/ContactStep';
 import { ExperienceStep } from './form-steps/ExperienceStep';
 import { EducationStep } from './form-steps/EducationStep';
+import { ProjectsStep } from './form-steps/ProjectsStep';
 import { SummarySkillsStep } from './form-steps/SummarySkillsStep';
 import { ResumeFormData } from '@/types';
 import { Toast, ToastType } from './Toast';
@@ -16,6 +17,7 @@ const steps = [
     { id: 'contact', title: 'Personal Info' },
     { id: 'experience', title: 'Experience' },
     { id: 'education', title: 'Education' },
+    { id: 'projects', title: 'Projects' },
     { id: 'skills', title: 'Summary & Skills' },
 ];
 
@@ -23,6 +25,7 @@ const initialData: ResumeFormData = {
     contactInfo: { fullName: '', email: '', phone: '', location: '' },
     experience: [],
     education: [],
+    projects: [],
     summary: '',
     skills: [],
 };
@@ -40,10 +43,6 @@ function validateContact(data: ResumeFormData['contactInfo']): string[] {
 
 function validateExperience(data: ResumeFormData['experience']): string[] {
     const errors: string[] = [];
-    if (data.length === 0) {
-        errors.push('Add at least one work experience');
-        return errors;
-    }
     data.forEach((exp, i) => {
         if (!exp.company.trim()) errors.push(`Experience ${i + 1}: Company name is required`);
         if (!exp.role.trim()) errors.push(`Experience ${i + 1}: Role/title is required`);
@@ -55,13 +54,18 @@ function validateExperience(data: ResumeFormData['experience']): string[] {
 
 function validateEducation(data: ResumeFormData['education']): string[] {
     const errors: string[] = [];
-    if (data.length === 0) {
-        errors.push('Add at least one education entry');
-        return errors;
-    }
     data.forEach((edu, i) => {
         if (!edu.school.trim()) errors.push(`Education ${i + 1}: School name is required`);
         if (!edu.degree.trim()) errors.push(`Education ${i + 1}: Degree is required`);
+    });
+    return errors;
+}
+
+function validateProjects(data: ResumeFormData['projects']): string[] {
+    const errors: string[] = [];
+    data.forEach((proj, i) => {
+        if (!proj.name.trim()) errors.push(`Project ${i + 1}: Name is required`);
+        if (!proj.description.trim()) errors.push(`Project ${i + 1}: Description is required`);
     });
     return errors;
 }
@@ -103,6 +107,9 @@ export function ResumeForm({ initialData: providedData, resumeId }: { initialDat
                 errors = validateEducation(formData.education);
                 break;
             case 3:
+                errors = validateProjects(formData.projects);
+                break;
+            case 4:
                 errors = validateSummarySkills(formData);
                 break;
         }
@@ -287,7 +294,8 @@ export function ResumeForm({ initialData: providedData, resumeId }: { initialDat
                         {currentStep === 0 && <ContactStep data={formData.contactInfo} updateData={(d) => updateData({ contactInfo: { ...formData.contactInfo, ...d } })} />}
                         {currentStep === 1 && <ExperienceStep data={formData.experience} updateData={(d) => updateData({ experience: d })} />}
                         {currentStep === 2 && <EducationStep data={formData.education} updateData={(d) => updateData({ education: d })} />}
-                        {currentStep === 3 && <SummarySkillsStep data={formData} updateData={updateData} />}
+                        {currentStep === 3 && <ProjectsStep data={formData.projects} updateData={(d) => updateData({ projects: d })} />}
+                        {currentStep === 4 && <SummarySkillsStep data={formData} updateData={updateData} />}
                     </motion.div>
                 </AnimatePresence>
             </div>

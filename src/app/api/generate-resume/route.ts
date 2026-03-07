@@ -26,7 +26,7 @@ Focus on:
 1. Professional tone
 2. Correct ATS keyword placement
 3. Action verbs
-4. Clean, standard resume sections (Contact, Summary, Experience, Education, Skills)
+4. Clean, standard resume sections (Contact, Summary, Experience, Education, Projects, Skills)
 
 User Data:
 ${JSON.stringify(raw_data, null, 2)}
