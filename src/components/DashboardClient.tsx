@@ -79,7 +79,7 @@ export function DashboardClient({ resumes: initialResumes }: Props) {
             <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10 animate-fade-up">
                     <div>
-                        <h1 className="text-3xl font-bold text-white">Your Resumes</h1>
+                        <h1 className="text-3xl font-bold text-[var(--text-primary)]">Your Resumes</h1>
                         <p className="text-gray-400 mt-2">Manage and view all your AI-generated resumes.</p>
                     </div>
                     <Link
@@ -94,16 +94,15 @@ export function DashboardClient({ resumes: initialResumes }: Props) {
                 {!resumes || resumes.length === 0 ? (
                     <div className="animate-fade-up-delay-1 text-center py-24 glass-card border-dashed">
                         <div className="relative inline-flex mb-6">
-                            <div className="absolute inset-0 bg-indigo-500/20 rounded-full blur-xl" />
-                            <div className="relative bg-indigo-500/10 w-20 h-20 rounded-full flex items-center justify-center border border-indigo-500/20">
-                                <FileText className="h-10 w-10 text-indigo-400" />
+                            <div className="relative bg-[var(--accent-1)]/10 w-20 h-20 rounded-full flex items-center justify-center border border-[var(--accent-1)]/20">
+                                <FileText className="h-10 w-10 text-[var(--accent-1)]" />
                             </div>
                         </div>
-                        <h3 className="text-xl font-semibold text-white mb-2">No resumes yet</h3>
+                        <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-2">No resumes yet</h3>
                         <p className="text-gray-500 mb-8 max-w-sm mx-auto">Get started by creating your first AI-powered resume.</p>
                         <Link
                             href="/create"
-                            className="inline-flex px-6 py-3 bg-white/5 text-indigo-300 border border-indigo-500/20 rounded-xl font-semibold hover:bg-indigo-500/10 hover:border-indigo-500/30 transition-all items-center gap-2"
+                            className="inline-flex px-6 py-3 bg-[var(--surface-1)] text-[var(--accent-1)] border border-[var(--accent-1)]/20 rounded-xl font-semibold hover:bg-[var(--accent-1)]/10 hover:border-[var(--accent-1)]/30 transition-all items-center gap-2"
                         >
                             <Sparkles className="h-4 w-4" />
                             Create Resume
@@ -152,14 +151,13 @@ export function DashboardClient({ resumes: initialResumes }: Props) {
                                 <Link href={`/dashboard/${resume.id}`} className="block">
                                     <div className="flex items-start justify-between mb-4">
                                         <div className="relative">
-                                            <div className="absolute inset-0 bg-indigo-500/0 group-hover:bg-indigo-500/20 rounded-xl blur-md transition-all" />
-                                            <div className="relative bg-indigo-500/10 p-3 rounded-xl group-hover:bg-gradient-to-br group-hover:from-indigo-500 group-hover:to-purple-600 transition-all border border-indigo-500/20 group-hover:border-transparent">
-                                                <FileText className="h-6 w-6 text-indigo-400 group-hover:text-white transition-colors" />
+                                            <div className="relative bg-[var(--surface-2)] p-3 rounded-xl group-hover:bg-[var(--accent-1)] transition-all border border-[var(--card-border)] group-hover:border-transparent">
+                                                <FileText className="h-6 w-6 text-[var(--accent-1)] group-hover:text-[#1C1C1E] transition-colors" />
                                             </div>
                                         </div>
-                                        <ArrowRight className="h-5 w-5 text-gray-600 group-hover:text-indigo-400 transition-all group-hover:translate-x-1 mt-2" />
+                                        <ArrowRight className="h-5 w-5 text-gray-600 group-hover:text-[var(--accent-1)] transition-all group-hover:translate-x-1 mt-2" />
                                     </div>
-                                    <h3 className="text-lg font-bold text-white mb-2 truncate group-hover:text-indigo-300 transition-colors pr-16">
+                                    <h3 className="text-lg font-bold text-[var(--text-primary)] mb-2 truncate group-hover:text-[var(--accent-1)] transition-colors pr-16">
                                         {resume.title || 'Untitled Resume'}
                                     </h3>
                                     <div className="flex items-center text-sm text-gray-500">

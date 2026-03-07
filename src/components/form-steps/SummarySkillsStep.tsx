@@ -29,13 +29,13 @@ export function SummarySkillsStep({ data, updateData }: Props) {
 
     return (
         <div className="space-y-8">
-            <div className="bg-gradient-to-r from-indigo-500/10 to-purple-500/10 p-6 rounded-xl border border-indigo-500/20 flex gap-4 backdrop-blur-sm">
-                <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-2.5 rounded-xl h-fit shadow-lg shadow-indigo-500/20">
-                    <Sparkles className="h-5 w-5 text-white" />
+            <div className="bg-[var(--surface-2)] p-6 rounded-xl border border-[var(--card-border)] flex gap-4">
+                <div className="bg-[var(--accent-1)] p-2.5 rounded-xl h-fit">
+                    <Sparkles className="h-5 w-5 text-[#1C1C1E]" />
                 </div>
                 <div>
-                    <h3 className="font-semibold text-white text-lg">Almost there!</h3>
-                    <p className="text-gray-400 mt-1 leading-relaxed">
+                    <h3 className="font-semibold text-[var(--text-primary)] text-lg">Almost there!</h3>
+                    <p className="text-[var(--text-secondary)] mt-1 leading-relaxed">
                         Provide a brief professional summary and a list of your core skills. Our AI will weave these into a compelling narrative and format your resume for ATS systems.
                     </p>
                 </div>
@@ -80,12 +80,12 @@ export function SummarySkillsStep({ data, updateData }: Props) {
                 {data.skills.length > 0 && (
                     <div className="mt-4 flex flex-wrap gap-2">
                         {data.skills.map((skill, idx) => (
-                            <span key={idx} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium bg-indigo-500/15 text-indigo-300 border border-indigo-500/20">
+                            <span key={idx} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium bg-[var(--accent-1)]/10 text-[var(--accent-1)] border border-[var(--accent-1)]/20">
                                 {skill}
                                 <button
                                     type="button"
                                     onClick={() => removeSkill(skill)}
-                                    className="hover:text-white focus:outline-none rounded-full p-0.5 hover:bg-indigo-500/30 transition-colors"
+                                    className="hover:text-[#1C1C1E] focus:outline-none rounded-full p-0.5 hover:bg-[var(--accent-1)] transition-colors"
                                 >
                                     <X className="h-3 w-3" />
                                 </button>

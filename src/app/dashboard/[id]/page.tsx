@@ -39,7 +39,7 @@ export default async function ResumePage({ params }: Props) {
                             <AlertTriangle className="h-8 w-8 text-amber-400" />
                         </div>
                     </div>
-                    <h2 className="text-2xl font-bold text-white mb-3">Resume Not Found</h2>
+                    <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-3">Resume Not Found</h2>
                     <p className="text-gray-400 mb-2 max-w-md mx-auto">
                         This resume couldn&apos;t be loaded. This can happen if:
                     </p>
@@ -51,7 +51,7 @@ export default async function ResumePage({ params }: Props) {
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                         <Link
                             href="/dashboard"
-                            className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 text-gray-300 border border-white/10 rounded-xl font-semibold hover:bg-white/[0.08] transition-all"
+                            className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--surface-1)] text-[var(--text-primary)] border border-[var(--card-border)] rounded-xl font-semibold hover:bg-[var(--surface-2)] transition-all"
                         >
                             <ArrowLeft className="h-4 w-4" />
                             Back to Dashboard
@@ -73,7 +73,7 @@ export default async function ResumePage({ params }: Props) {
         <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
             <Link
                 href="/dashboard"
-                className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-indigo-400 transition-colors mb-6 print:hidden"
+                className="inline-flex items-center text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--accent-1)] transition-colors mb-6 print:hidden"
             >
                 <ArrowLeft className="w-4 h-4 mr-1" />
                 Back to Dashboard

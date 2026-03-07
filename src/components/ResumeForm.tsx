@@ -221,9 +221,9 @@ export function ResumeForm({ initialData: providedData, resumeId }: { initialDat
             {/* Step Indicator */}
             <div className="mb-12">
                 <div className="flex items-center justify-between relative">
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[2px] bg-white/[0.06] z-0" />
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[2px] bg-[var(--card-border)] z-0" />
                     <div
-                        className="absolute left-0 top-1/2 -translate-y-1/2 h-[2px] bg-gradient-to-r from-indigo-500 to-purple-500 z-0 transition-all duration-500"
+                        className="absolute left-0 top-1/2 -translate-y-1/2 h-[2px] bg-[var(--accent-1)] z-0 transition-all duration-500"
                         style={{ width: `${progress}%` }}
                     />
 
@@ -234,14 +234,14 @@ export function ResumeForm({ initialData: providedData, resumeId }: { initialDat
                         return (
                             <div key={step.id} className="relative z-10 flex flex-col items-center">
                                 <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 text-sm font-bold ${isActive
-                                    ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-lg shadow-indigo-500/30 scale-110'
+                                    ? 'bg-[var(--accent-1)] text-[#1C1C1E] scale-110'
                                     : isCompleted
-                                        ? 'bg-indigo-500/20 border-2 border-indigo-500 text-indigo-400'
-                                        : 'bg-white/[0.05] border border-white/10 text-gray-500'
+                                        ? 'bg-[var(--accent-1)]/20 border-2 border-[var(--accent-1)] text-[var(--accent-1)]'
+                                        : 'bg-[var(--surface-1)] border border-[var(--card-border)] text-[var(--text-secondary)]'
                                     }`}>
                                     {isCompleted ? <CheckCircle2 className="w-5 h-5" /> : index + 1}
                                 </div>
-                                <span className={`absolute -bottom-7 text-xs font-semibold whitespace-nowrap transition-colors hidden sm:block ${isActive || isCompleted ? 'text-indigo-300' : 'text-gray-600'
+                                <span className={`absolute -bottom-7 text-xs font-semibold whitespace-nowrap transition-colors hidden sm:block ${isActive || isCompleted ? 'text-[var(--text-primary)]' : 'text-[var(--text-secondary)]'
                                     }`}>
                                     {step.title}
                                 </span>

@@ -38,8 +38,8 @@ export function ProjectsStep({ data, updateData }: Props) {
     return (
         <div className="space-y-6">
             {data.map((proj, index) => (
-                <div key={proj.id} className="relative border border-white/[0.08] rounded-xl p-6 bg-white/[0.02] group hover:border-indigo-500/20 transition-colors">
-                    <div className="absolute -top-3 -left-3 w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center font-bold text-sm text-white shadow-lg shadow-indigo-500/20">
+                <div key={proj.id} className="relative border border-[var(--card-border)] rounded-xl p-6 bg-[var(--surface-1)] group hover:border-[var(--accent-1)]/40 transition-colors">
+                    <div className="absolute -top-3 -left-3 w-8 h-8 bg-[var(--accent-1)] rounded-full flex items-center justify-center font-bold text-sm text-[#1C1C1E]">
                         {index + 1}
                     </div>
 
@@ -104,7 +104,7 @@ export function ProjectsStep({ data, updateData }: Props) {
             <button
                 type="button"
                 onClick={handleAdd}
-                className="w-full flex items-center justify-center py-4 border-2 border-dashed border-white/10 rounded-xl text-gray-500 hover:text-indigo-400 hover:border-indigo-500/30 hover:bg-indigo-500/5 transition-all font-medium gap-2"
+                className="w-full flex items-center justify-center py-4 border-2 border-dashed border-[var(--card-border)] rounded-xl text-[var(--text-secondary)] hover:text-[var(--accent-1)] hover:border-[var(--accent-1)]/40 hover:bg-[var(--accent-1)]/10 transition-all font-medium gap-2"
             >
                 <Plus className="h-5 w-5" />
                 Add Project

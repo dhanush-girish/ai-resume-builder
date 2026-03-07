@@ -10,13 +10,12 @@ export function Footer() {
                     <div className="sm:col-span-2 lg:col-span-1">
                         <Link href="/" className="flex items-center space-x-2.5 mb-4 group">
                             <div className="relative">
-                                <div className="absolute inset-0 bg-indigo-500/20 rounded-lg blur-md" />
-                                <div className="relative bg-gradient-to-br from-indigo-500 to-purple-600 p-2 rounded-lg">
-                                    <FileText className="h-4 w-4 text-white" />
+                                <div className="relative bg-[var(--accent-1)] p-2 rounded-lg">
+                                    <FileText className="h-4 w-4 text-[#1C1C1E]" />
                                 </div>
                             </div>
-                            <span className="font-bold text-lg text-white tracking-tight">
-                                AI Resume <span className="gradient-text">Maker</span>
+                            <span className="font-bold text-lg text-[var(--text-primary)] tracking-tight">
+                                AI Resume <span className="text-[var(--accent-1)]">Maker</span>
                             </span>
                         </Link>
                         <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
@@ -28,8 +27,8 @@ export function Footer() {
                     <div>
                         <h4 className="text-sm font-semibold text-white mb-4 uppercase tracking-wider">Product</h4>
                         <ul className="space-y-2.5">
-                            <li><Link href="/create" className="text-sm text-gray-500 hover:text-indigo-400 transition-colors">Create Resume</Link></li>
-                            <li><Link href="/dashboard" className="text-sm text-gray-500 hover:text-indigo-400 transition-colors">Dashboard</Link></li>
+                            <li><Link href="/create" className="text-sm text-[var(--text-secondary)] hover:text-[var(--accent-1)] transition-colors">Create Resume</Link></li>
+                            <li><Link href="/dashboard" className="text-sm text-[var(--text-secondary)] hover:text-[var(--accent-1)] transition-colors">Dashboard</Link></li>
                         </ul>
                     </div>
 
@@ -60,10 +59,10 @@ export function Footer() {
                         <Heart className="h-3.5 w-3.5 text-red-400 fill-red-400 inline mx-0.5" />
                     </p>
                     <div className="flex items-center gap-4">
-                        <a href="#" className="text-gray-600 hover:text-white transition-colors" aria-label="GitHub">
+                        <a href="#" className="text-gray-600 hover:text-[var(--text-primary)] transition-colors" aria-label="GitHub">
                             <Github className="h-5 w-5" />
                         </a>
-                        <a href="#" className="text-gray-600 hover:text-white transition-colors" aria-label="Twitter">
+                        <a href="#" className="text-gray-600 hover:text-[var(--text-primary)] transition-colors" aria-label="Twitter">
                             <Twitter className="h-5 w-5" />
                         </a>
                     </div>

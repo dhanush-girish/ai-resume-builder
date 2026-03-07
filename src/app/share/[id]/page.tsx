@@ -63,7 +63,7 @@ export default async function SharePage({ params }: Props) {
                             <FileText className="h-8 w-8 text-red-400" />
                         </div>
                     </div>
-                    <h2 className="text-2xl font-bold text-white mb-3">Resume Not Available</h2>
+                    <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-3">Resume Not Available</h2>
                     <p className="text-gray-400 mb-8">
                         This resume doesn&apos;t exist or the link has expired. The owner may have deleted it.
                     </p>
@@ -84,7 +84,7 @@ export default async function SharePage({ params }: Props) {
             {/* Header */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 print:hidden animate-fade-up">
                 <div>
-                    <h1 className="text-2xl font-bold text-white">{resume.title || 'Resume'}</h1>
+                    <h1 className="text-2xl font-bold text-[var(--text-primary)]">{resume.title || 'Resume'}</h1>
                     <div className="flex items-center gap-2 mt-1 text-sm text-gray-500">
                         <Calendar className="h-3.5 w-3.5" />
                         Created {new Date(resume.created_at).toLocaleDateString('en-US', {
@@ -99,7 +99,7 @@ export default async function SharePage({ params }: Props) {
 
             {/* A4 Paper Container */}
             <div className="glass-card p-4 sm:p-8 flex justify-center print:bg-white print:border-none print:p-0 print:overflow-visible animate-fade-up-delay-1">
-                <div className="bg-white shadow-2xl shadow-black/30 w-full max-w-[850px] min-h-[1100px] p-8 sm:p-12 rounded-lg print:shadow-none print:p-0 print:rounded-none resume-markdown prose prose-slate prose-sm sm:prose-base max-w-none prose-headings:text-gray-900 prose-headings:font-bold prose-h1:text-4xl prose-h1:text-center prose-h1:mb-2 prose-h2:text-xl prose-h2:border-b-2 prose-h2:border-gray-900 prose-h2:uppercase prose-h2:tracking-wider prose-h2:pb-1 prose-h2:mb-4 prose-h2:mt-8 prose-h3:text-lg prose-h3:font-semibold prose-h3:mb-1 prose-h3:mt-4 prose-p:text-gray-700 prose-p:leading-relaxed prose-p:my-2 prose-ul:text-gray-700 prose-ul:my-2 prose-li:my-0.5 prose-a:text-indigo-600 prose-a:no-underline hover:prose-a:underline marker:text-gray-400">
+                <div className="bg-white shadow-2xl shadow-black/30 w-full max-w-[850px] min-h-[1100px] p-8 sm:p-12 rounded-lg print:shadow-none print:p-0 print:rounded-none resume-markdown prose prose-slate prose-sm sm:prose-base max-w-none prose-headings:text-gray-900 prose-headings:font-bold prose-h1:text-4xl prose-h1:text-center prose-h1:mb-2 prose-h2:text-xl prose-h2:border-b-2 prose-h2:border-gray-900 prose-h2:uppercase prose-h2:tracking-wider prose-h2:pb-1 prose-h2:mb-4 prose-h2:mt-8 prose-h3:text-lg prose-h3:font-semibold prose-h3:mb-1 prose-h3:mt-4 prose-p:text-gray-700 prose-p:leading-relaxed prose-p:my-2 prose-ul:text-gray-700 prose-ul:my-2 prose-li:my-0.5 prose-a:text-gray-900 prose-a:no-underline hover:prose-a:underline marker:text-gray-400">
                     <ReactMarkdown
                         remarkPlugins={[remarkGfm]}
                         rehypePlugins={[rehypeRaw]}

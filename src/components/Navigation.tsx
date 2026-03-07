@@ -17,18 +17,17 @@ export default function Navigation() {
     ];
 
     return (
-        <nav className="fixed top-0 w-full z-50 border-b border-white/[0.06]" style={{ background: 'rgba(10, 10, 26, 0.8)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}>
+        <nav className="fixed top-0 w-full z-50 border-b border-[var(--card-border)] bg-[var(--background)]">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16">
                     <Link href="/" className="flex items-center space-x-2.5 group" onClick={() => setMobileMenuOpen(false)}>
                         <div className="relative">
-                            <div className="absolute inset-0 bg-indigo-500/20 rounded-lg blur-md group-hover:bg-indigo-500/30 transition-all" />
-                            <div className="relative bg-gradient-to-br from-indigo-500 to-purple-600 p-2 rounded-lg shadow-lg shadow-indigo-500/20">
-                                <FileText className="h-4 w-4 text-white" />
+                            <div className="relative bg-[var(--accent-1)] p-2 rounded-lg">
+                                <FileText className="h-4 w-4 text-[#1C1C1E]" />
                             </div>
                         </div>
-                        <span className="font-bold text-lg text-white tracking-tight">
-                            AI Resume <span className="gradient-text">Maker</span>
+                        <span className="font-bold text-lg text-[var(--text-primary)] tracking-tight">
+                            AI Resume <span className="text-[var(--accent-1)]">Maker</span>
                         </span>
                     </Link>
 
@@ -65,7 +64,7 @@ export default function Navigation() {
 
             {/* Mobile dropdown */}
             {mobileMenuOpen && (
-                <div className="sm:hidden border-t border-white/[0.06] animate-fade-up" style={{ background: 'rgba(10, 10, 26, 0.95)' }}>
+                <div className="sm:hidden border-t border-[var(--card-border)] animate-fade-up bg-[var(--background)]">
                     <div className="px-4 py-3 space-y-1">
                         {navLinks.map((link) => {
                             const Icon = link.icon;
