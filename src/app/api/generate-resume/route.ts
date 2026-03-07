@@ -12,7 +12,7 @@ const groq = new Groq({
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { title, raw_data }: { title: string; raw_data: ResumeFormData } = body;
+        const { id, title, raw_data }: { id?: string; title: string; raw_data: ResumeFormData } = body;
 
         if (!raw_data) {
             return NextResponse.json({ error: 'Missing resume data' }, { status: 400 });
@@ -53,19 +53,43 @@ Only output the raw markdown string. Do not include any additional preambles, ex
         }
 
         // Try to save to Supabase
-        const resumeId = uuidv4();
+        const resumeId = id || uuidv4();
 
         try {
-            const { data: dbData, error: dbError } = await supabase
-                .from('resumes')
-                .insert({
-                    id: resumeId,
-                    title,
-                    raw_data,
-                    ai_content: aiContent,
-                })
-                .select()
-                .single();
+            let dbData;
+            let dbError;
+
+            if (id) {
+                // Update existing resume
+                const result = await supabase
+                    .from('resumes')
+                    .update({
+                        title,
+                        raw_data,
+                        ai_content: aiContent,
+                    })
+                    .eq('id', id)
+                    .select()
+                    .single();
+
+                dbData = result.data;
+                dbError = result.error;
+            } else {
+                // Insert new resume
+                const result = await supabase
+                    .from('resumes')
+                    .insert({
+                        id: resumeId,
+                        title,
+                        raw_data,
+                        ai_content: aiContent,
+                    })
+                    .select()
+                    .single();
+
+                dbData = result.data;
+                dbError = result.error;
+            }
 
             if (dbError) {
                 console.error('Database Error:', dbError);

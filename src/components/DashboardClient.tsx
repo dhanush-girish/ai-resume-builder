@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FileText, Plus, Calendar, Sparkles, ArrowRight, Trash2, Copy } from 'lucide-react';
+import { FileText, Plus, Calendar, Sparkles, ArrowRight, Trash2, Copy, Edit2 } from 'lucide-react';
 import { ConfirmModal, useToast } from './ConfirmModal';
 
 interface Resume {
@@ -119,6 +119,14 @@ export function DashboardClient({ resumes: initialResumes }: Props) {
                             >
                                 {/* Action buttons */}
                                 <div className="absolute top-4 right-4 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                                    <Link
+                                        href={`/edit/${resume.id}`}
+                                        onClick={(e) => e.stopPropagation()}
+                                        className="p-2 text-gray-500 hover:text-green-400 hover:bg-green-500/10 rounded-lg transition-all"
+                                        title="Edit Resume"
+                                    >
+                                        <Edit2 className="h-4 w-4" />
+                                    </Link>
                                     <button
                                         onClick={(e) => {
                                             e.stopPropagation();

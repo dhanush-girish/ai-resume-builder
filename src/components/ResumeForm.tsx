@@ -73,10 +73,10 @@ function validateSummarySkills(data: ResumeFormData): string[] {
     return errors;
 }
 
-export function ResumeForm() {
+export function ResumeForm({ initialData: providedData, resumeId }: { initialData?: ResumeFormData, resumeId?: string }) {
     const router = useRouter();
     const [currentStep, setCurrentStep] = useState(0);
-    const [formData, setFormData] = useState<ResumeFormData>(initialData);
+    const [formData, setFormData] = useState<ResumeFormData>(providedData || initialData);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [validationErrors, setValidationErrors] = useState<string[]>([]);
@@ -139,6 +139,7 @@ export function ResumeForm() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
+                    id: resumeId,
                     title: `${formData.contactInfo.fullName}'s Resume`,
                     raw_data: formData,
                 }),
@@ -312,13 +313,13 @@ export function ResumeForm() {
                     {isSubmitting ? (
                         <>
                             <Loader2 className="w-4 h-4 animate-spin" />
-                            <span className="hidden sm:inline">Generating...</span>
+                            <span className="hidden sm:inline">{resumeId ? 'Updating...' : 'Generating...'}</span>
                             <span className="sm:hidden">Wait...</span>
                         </>
                     ) : currentStep === steps.length - 1 ? (
                         <>
-                            <span className="hidden sm:inline">Generate Resume</span>
-                            <span className="sm:hidden">Generate</span>
+                            <span className="hidden sm:inline">{resumeId ? 'Update Resume' : 'Generate Resume'}</span>
+                            <span className="sm:hidden">{resumeId ? 'Update' : 'Generate'}</span>
                             <Sparkles className="w-4 h-4 ml-1" />
                         </>
                     ) : (
