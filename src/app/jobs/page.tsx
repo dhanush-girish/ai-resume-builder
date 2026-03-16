@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
-import { Briefcase, MapPin, Search, ExternalLink, Building, Loader2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Briefcase, MapPin, Search, ExternalLink, Building, Loader2, Bookmark, BookmarkCheck } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 
 export default function JobsPage() {
     const [query, setQuery] = useState('');
@@ -9,6 +10,30 @@ export default function JobsPage() {
     const [jobs, setJobs] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [user, setUser] = useState<any>(null);
+    const [savedJobIds, setSavedJobIds] = useState<string[]>([]);
+    const [savingJobUrl, setSavingJobUrl] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchUserAndSavedJobs = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session?.user) {
+                setUser(session.user);
+                
+                // Fetch user's saved jobs to check if any of the results are already saved
+                const { data } = await supabase
+                    .from('saved_jobs')
+                    .select('apply_url')
+                    .eq('user_id', session.user.id);
+                
+                if (data) {
+                    setSavedJobIds(data.map(job => job.apply_url));
+                }
+            }
+        };
+
+        fetchUserAndSavedJobs();
+    }, []);
 
     const handleSearch = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -36,6 +61,47 @@ export default function JobsPage() {
             setError(err.message);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleSaveJob = async (job: any) => {
+        if (!user) {
+            setError('Please sign in to save jobs.');
+            return;
+        }
+
+        const applyUrl = job.applyUrl || job.apply_url;
+        const isSaved = savedJobIds.includes(applyUrl);
+
+        setSavingJobUrl(applyUrl);
+        
+        try {
+            if (isSaved) {
+                // Determine ID if unsave needed. Usually we delete by URL to avoid querying ID first
+                const { error: matchError } = await supabase
+                    .from('saved_jobs')
+                    .delete()
+                    .eq('user_id', user.id)
+                    .eq('apply_url', applyUrl);
+
+                if (matchError) throw matchError;
+
+                setSavedJobIds(prev => prev.filter(url => url !== applyUrl));
+            } else {
+                const res = await fetch('/api/save-job', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ job, user_id: user.id })
+                });
+
+                if (!res.ok) throw new Error('Failed to save job');
+
+                setSavedJobIds(prev => [...prev, applyUrl]);
+            }
+        } catch (err: any) {
+            setError(err.message || 'Failed to update saved jobs');
+        } finally {
+            setSavingJobUrl(null);
         }
     };
 
@@ -119,7 +185,27 @@ export default function JobsPage() {
                             </p>
                         </div>
                         
-                        <div className="md:w-48 flex justify-end shrink-0">
+                        <div className="md:w-48 flex flex-col md:flex-row justify-end items-center gap-3 shrink-0">
+                            {job.applyUrl && (
+                                <button
+                                    onClick={() => handleSaveJob(job)}
+                                    disabled={savingJobUrl === (job.applyUrl || job.apply_url)}
+                                    className={`p-3 rounded-xl border transition-all ${
+                                        savedJobIds.includes(job.applyUrl || job.apply_url)
+                                            ? 'bg-[var(--accent-1)]/10 border-[var(--accent-1)]/20 text-[var(--accent-1)] hover:bg-[var(--accent-1)]/20'
+                                            : 'bg-white/5 border-[var(--card-border)] text-gray-400 hover:text-white hover:bg-white/10'
+                                    }`}
+                                    title={savedJobIds.includes(job.applyUrl || job.apply_url) ? "Unsave Job" : "Save Job"}
+                                >
+                                    {savingJobUrl === (job.applyUrl || job.apply_url) ? (
+                                        <Loader2 className="h-5 w-5 animate-spin" />
+                                    ) : savedJobIds.includes(job.applyUrl || job.apply_url) ? (
+                                        <BookmarkCheck className="h-5 w-5" />
+                                    ) : (
+                                        <Bookmark className="h-5 w-5" />
+                                    )}
+                                </button>
+                            )}
                             {job.applyUrl && (
                                 <a 
                                     href={job.applyUrl} 
