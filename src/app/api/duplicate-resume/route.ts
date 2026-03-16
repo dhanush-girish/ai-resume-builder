@@ -31,6 +31,7 @@ export async function POST(req: Request) {
                 title: `${original.title} (Copy)`,
                 raw_data: original.raw_data,
                 ai_content: original.ai_content,
+                user_id: original.user_id,
             })
             .select()
             .single();

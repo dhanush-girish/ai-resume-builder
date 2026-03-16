@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, ChevronRight, ChevronLeft, Loader2, Sparkles, AlertCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -12,6 +12,7 @@ import { SummarySkillsStep } from './form-steps/SummarySkillsStep';
 import { ResumeFormData } from '@/types';
 import { Toast, ToastType } from './Toast';
 import { ResumeViewer } from './ResumeViewer';
+import { supabase } from '@/lib/supabase';
 
 const steps = [
     { id: 'contact', title: 'Personal Info' },
@@ -88,6 +89,13 @@ export function ResumeForm({ initialData: providedData, resumeId }: { initialDat
     const [toast, setToast] = useState<{ message: string; type: ToastType; visible: boolean }>({
         message: '', type: 'info', visible: false,
     });
+    const [userId, setUserId] = useState<string | null>(null);
+
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            setUserId(session?.user?.id || null);
+        });
+    }, []);
 
     const updateData = (stepData: Partial<ResumeFormData>) => {
         setFormData((prev) => ({ ...prev, ...stepData }));
@@ -149,6 +157,7 @@ export function ResumeForm({ initialData: providedData, resumeId }: { initialDat
                     id: resumeId,
                     title: `${formData.contactInfo.fullName}'s Resume`,
                     raw_data: formData,
+                    user_id: userId,
                 }),
             });
 

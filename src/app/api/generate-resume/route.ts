@@ -12,7 +12,7 @@ const groq = new Groq({
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { id, title, raw_data }: { id?: string; title: string; raw_data: ResumeFormData } = body;
+        const { id, title, raw_data, user_id }: { id?: string; title: string; raw_data: ResumeFormData; user_id?: string } = body;
 
         if (!raw_data) {
             return NextResponse.json({ error: 'Missing resume data' }, { status: 400 });
@@ -60,15 +60,21 @@ Only output the raw markdown string. Do not include any additional preambles, ex
             let dbError;
 
             if (id) {
-                // Update existing resume
-                const result = await supabase
+                // Update existing resume (only if owned by user)
+                let query = supabase
                     .from('resumes')
                     .update({
                         title,
                         raw_data,
                         ai_content: aiContent,
                     })
-                    .eq('id', id)
+                    .eq('id', id);
+
+                if (user_id) {
+                    query = query.eq('user_id', user_id);
+                }
+
+                const result = await query
                     .select()
                     .single();
 
@@ -76,14 +82,20 @@ Only output the raw markdown string. Do not include any additional preambles, ex
                 dbError = result.error;
             } else {
                 // Insert new resume
+                const insertData: any = {
+                    id: resumeId,
+                    title,
+                    raw_data,
+                    ai_content: aiContent,
+                };
+
+                if (user_id) {
+                    insertData.user_id = user_id;
+                }
+
                 const result = await supabase
                     .from('resumes')
-                    .insert({
-                        id: resumeId,
-                        title,
-                        raw_data,
-                        ai_content: aiContent,
-                    })
+                    .insert(insertData)
                     .select()
                     .single();
 
