@@ -2,18 +2,46 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FileText, LayoutDashboard, PenTool, Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { FileText, LayoutDashboard, PenTool, Menu, X, Briefcase, LogIn, LogOut } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
 
 export default function Navigation() {
     const pathname = usePathname();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [user, setUser] = useState<any>(null);
+
+    useEffect(() => {
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(
+            (event, session) => {
+                setUser(session?.user || null);
+            }
+        );
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            setUser(session?.user || null);
+        });
+        return () => subscription.unsubscribe();
+    }, []);
+
+    const handleLogin = async () => {
+        await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                redirectTo: `${window.location.origin}/dashboard`
+            }
+        });
+    };
+
+    const handleLogout = async () => {
+        await supabase.auth.signOut();
+    };
 
     const isActive = (path: string) => pathname === path;
 
     const navLinks = [
         { href: '/create', label: 'Create', icon: PenTool },
         { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+        { href: '/jobs', label: 'AI Jobs', icon: Briefcase },
     ];
 
     return (
@@ -49,6 +77,26 @@ export default function Navigation() {
                                 </Link>
                             );
                         })}
+                        
+                        <div className="ml-4 pl-4 border-l border-[var(--card-border)]">
+                            {user ? (
+                                <button
+                                    onClick={handleLogout}
+                                    className="px-4 py-2 rounded-lg font-medium transition-all flex items-center gap-2 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                                >
+                                    <LogOut className="h-4 w-4" />
+                                    Logout
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={handleLogin}
+                                    className="px-4 py-2 rounded-lg font-medium transition-all flex items-center gap-2 text-sm bg-[var(--accent-1)] text-[#1C1C1E] hover:opacity-90"
+                                >
+                                    <LogIn className="h-4 w-4" />
+                                    Sign In with Google
+                                </button>
+                            )}
+                        </div>
                     </div>
 
                     {/* Mobile hamburger */}
@@ -83,6 +131,32 @@ export default function Navigation() {
                                 </Link>
                             );
                         })}
+                        
+                        <div className="pt-2 mt-2 border-t border-[var(--card-border)]">
+                            {user ? (
+                                <button
+                                    onClick={() => {
+                                        handleLogout();
+                                        setMobileMenuOpen(false);
+                                    }}
+                                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                                >
+                                    <LogOut className="h-5 w-5" />
+                                    Logout
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={() => {
+                                        handleLogin();
+                                        setMobileMenuOpen(false);
+                                    }}
+                                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all text-sm bg-[var(--accent-1)] text-[#1C1C1E] hover:opacity-90 mt-2"
+                                >
+                                    <LogIn className="h-5 w-5" />
+                                    Sign In with Google
+                                </button>
+                            )}
+                        </div>
                     </div>
                 </div>
             )}
